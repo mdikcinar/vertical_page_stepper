@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:page_stepper/src/models/page_indicator_settings.dart';
-import 'package:page_stepper/src/models/page_step.dart';
+
+part 'models/page_step.dart';
 
 class PageStepper extends StatefulWidget {
   const PageStepper({
-    super.key,
+    Key? key,
     required this.steps,
     this.pageController,
     this.indicatorSettings = const PageIndicatorSettings(),
     this.pageChangeDuration = const Duration(milliseconds: 500),
     this.pageChangeCurve = Curves.easeOut,
-  });
+  }) : super(key: key);
 
   final List<PageStep> steps;
   final PageController? pageController;
@@ -97,7 +98,7 @@ class _PageStepperState extends State<PageStepper> {
         for (var indicatorIndex = 0; indicatorIndex < widget.steps.length; indicatorIndex++)
           GestureDetector(
             onTap: () => animateToPage(indicatorIndex),
-            child: ValueListenableBuilder(
+            child: ValueListenableBuilder<double>(
               valueListenable: pageValueNotifier,
               builder: (context, pageValue, child) {
                 calculateIndicatorPositions(indicatorIndex, pageValue);
@@ -219,9 +220,7 @@ class _PageStepperState extends State<PageStepper> {
 }
 
 class TitleShadow extends StatelessWidget {
-  const TitleShadow({
-    super.key,
-  });
+  const TitleShadow({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of '../page_stepper.dart';
 
 @immutable
 class PageStep {
