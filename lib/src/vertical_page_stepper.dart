@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:vertical_page_stepper/vertical_page_stepper.dart';
 
 part 'models/vertical_page_step.dart';
+part 'widgets/indicator.dart';
+part 'widgets/title_shadow.dart';
 
 class VerticalPageStepper extends StatefulWidget {
   const VerticalPageStepper({
@@ -35,13 +37,7 @@ class _VerticalPageStepperState extends State<VerticalPageStepper> {
   void initState() {
     super.initState();
     pageController = widget.pageController ?? PageController();
-    pageController.addListener(() {
-      if (!pageController.hasClients) return;
-      pageValueNotifier.value = pageController.page ?? 0;
-      if (currentStepNotifier.value != pageController.page!.round()) {
-        currentStepNotifier.value = pageController.page!.round();
-      }
-    });
+    pageController.addListener(pageValueListener);
     indicatorInitialPositions = List.generate(widget.steps.length, (index) => 0);
     indicatorPositions = List.generate(widget.steps.length, (index) => null);
   }
@@ -57,7 +53,9 @@ class _VerticalPageStepperState extends State<VerticalPageStepper> {
   @override
   void dispose() {
     if (widget.pageController == null) {
-      pageController.dispose();
+      pageController
+        ..removeListener(pageValueListener)
+        ..dispose();
     }
     super.dispose();
   }
@@ -78,7 +76,7 @@ class _VerticalPageStepperState extends State<VerticalPageStepper> {
                         onTap: () => animateToPage(index),
                         child: widget.steps[index].title,
                       ),
-                    const TitleShadow()
+                    const _TitleShadow()
                   ],
                 );
               },
@@ -98,37 +96,32 @@ class _VerticalPageStepperState extends State<VerticalPageStepper> {
           ],
         ),
         for (var indicatorIndex = 0; indicatorIndex < widget.steps.length; indicatorIndex++)
-          GestureDetector(
-            onTap: () => animateToPage(indicatorIndex),
-            child: ValueListenableBuilder<double>(
-              valueListenable: pageValueNotifier,
-              builder: (context, pageValue, child) {
-                calculateIndicatorPositions(indicatorIndex, pageValue);
-                final indicatorPosition =
-                    indicatorPositions[indicatorIndex] ?? indicatorInitialPositions[indicatorIndex];
-                return Padding(
-                  padding: EdgeInsets.only(
-                    left: widget.indicatorSettings.leftPadding,
-                    top: indicatorPosition,
-                  ),
-                  child: Transform.scale(
-                    scale: getIndicatorScale(indicatorIndex, pageValue),
-                    child: CircleAvatar(
-                      backgroundColor: getIndicatorBackgroundColor(indicatorIndex)
-                          ?.withOpacity(getIndicatorColorOpacity(indicatorIndex, pageValue)),
-                      radius: widget.indicatorSettings.activeRadius,
-                      child: Opacity(
-                        opacity: getIndicatorOpacity(indicatorIndex, pageValue),
-                        child: widget.steps[indicatorIndex].indicator,
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
+          ValueListenableBuilder<double>(
+            valueListenable: pageValueNotifier,
+            builder: (context, pageValue, child) {
+              calculateIndicatorPositions(indicatorIndex, pageValue);
+              final indicatorPosition = indicatorPositions[indicatorIndex] ?? indicatorInitialPositions[indicatorIndex];
+              return _Indicator(
+                indicatorSettings: widget.indicatorSettings,
+                indicatorIndex: indicatorIndex,
+                indicatorPosition: indicatorPosition,
+                pageValue: pageValue,
+                backgroundColor: getIndicatorBackgroundColor(indicatorIndex),
+                onTap: () => animateToPage(indicatorIndex),
+                child: widget.steps[indicatorIndex].indicator,
+              );
+            },
           ),
       ],
     );
+  }
+
+  void pageValueListener() {
+    if (!pageController.hasClients) return;
+    pageValueNotifier.value = pageController.page ?? 0;
+    if (currentStepNotifier.value != pageController.page!.round()) {
+      currentStepNotifier.value = pageController.page!.round();
+    }
   }
 
   void animateToPage(int pageIndex) {
@@ -188,55 +181,5 @@ class _VerticalPageStepperState extends State<VerticalPageStepper> {
 
   bool isIndicatorBelowCenter(int indicatorIndex) {
     return indicatorIndex > (widget.steps.length / 2 - 0.5);
-  }
-
-  double getIndicatorOpacity(int indicatorIndex, double pageValue) {
-    if (indicatorIndex <= pageValue) {
-      return 1;
-    } else if (indicatorIndex >= pageValue + 1) {
-      return 0;
-    }
-    return 1 - (indicatorIndex - pageValue);
-  }
-
-  double getIndicatorScale(int indicatorIndex, double pageValue) {
-    final scale = widget.indicatorSettings.radius / widget.indicatorSettings.activeRadius;
-    if (indicatorIndex <= pageValue) {
-      return 1;
-    } else if (indicatorIndex >= pageValue + 1) {
-      return scale;
-    }
-    return scale + ((1 - scale) * (1 - (indicatorIndex - pageValue)));
-  }
-
-  double getIndicatorColorOpacity(int indicatorIndex, double pageValue) {
-    var colorOpacity =
-        widget.indicatorSettings.opacity + ((1 - widget.indicatorSettings.opacity) * (pageValue - indicatorIndex + 1));
-    if (pageValue - indicatorIndex + 1 < 0) {
-      colorOpacity = widget.indicatorSettings.opacity;
-    } else if (pageValue - indicatorIndex + 1 > 1) {
-      colorOpacity = 1;
-    }
-    return colorOpacity;
-  }
-}
-
-class TitleShadow extends StatelessWidget {
-  const TitleShadow({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade400,
-            blurRadius: 0.2,
-            spreadRadius: 0.2,
-          ),
-        ],
-      ),
-      child: SizedBox.fromSize(size: const Size.fromHeight(0)),
-    );
   }
 }

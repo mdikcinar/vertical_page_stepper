@@ -16,11 +16,14 @@ class VerticalPageStep {
   final Widget title;
 
   /// The content of the step that appears below the [title].
-  ///
-  /// Below the content, every step has a 'continue' and 'cancel' button.
   final Widget content;
 
+  ///Indicator widget which is Inside a `CircleAvatar`.
+  ///Commonly it's a icon
   final Widget? indicator;
 
+  ///Defines step special indicator background color.
+  ///
+  ///This value will be override indicator color that inside `StepperIndicatorSettings`
   final Color? indicatorBackgroundColor;
 }
