@@ -1,39 +1,57 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+# Vertical Page Stepper
+A simple customizable stepper.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+![](https://github.com/mdikcinar/vertical_page_stepper/raw/main/doc/gif.gif)
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+Please check the [example](https://github.com/mdikcinar/vertical_page_stepper/tree/main/example/lib/stepper) project to better understand.
 
-```dart
-const like = 'sample';
+``` dart
+VerticalPageStepper(
+      pageController: pageController,
+      indicatorSettings: StepperIndicatorSettings(
+        backgroundColor: Colors.grey.shade300,
+        opacity: 0.5,
+      ),
+      steps: const [
+        Step1(),
+        Step2(),
+        Step3(),
+        Step4(),
+        Step5(),
+      ],
+    );
+```    
+Available `StepperIndicatorSettings`
+``` dart
+  ///Indicator's radius when step is current or passed
+  final double activeRadius;
+
+  ///Indicator's radius when its next step
+  final double radius;
+
+  ///Indicators padding value from left
+  final double leftPadding;
+
+  ///Indicator background color
+  final Color? backgroundColor;
+
+  ///Indicator background color opacity when its next step.
+  ///
+  ///This value will be 1 when step is current or passed
+  final double opacity;
 ```
+## Tasks
 
-## Additional information
+---
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+- [ ] Widget Tests
+- [ ] Bouncing problem when change page with pageController
+
+## License
+
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
