@@ -43,7 +43,7 @@ class _Step1Content extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Your Name and Surname'),
+            const Text('Your Name and Surname'),
             TextFormField(
               decoration: const InputDecoration(
                 labelText: 'Name',
