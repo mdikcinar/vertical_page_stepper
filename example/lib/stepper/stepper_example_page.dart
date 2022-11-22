@@ -43,6 +43,16 @@ class _ExamplePageState extends State<ExamplePage> {
             backgroundColor: Colors.blueAccent,
             elevation: hasAppBarElevation ? null : 0,
           ),
+          floatingActionButton: FloatingActionButton.extended(
+            label: const Text('Next'),
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+            onPressed: () {
+              pageController.nextPage(
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeOut,
+              );
+            },
+          ),
           body: child,
         );
       },
@@ -50,4 +60,3 @@ class _ExamplePageState extends State<ExamplePage> {
     );
   }
 }
-

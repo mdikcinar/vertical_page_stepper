@@ -5,7 +5,7 @@ import 'package:vertical_page_stepper/vertical_page_stepper.dart';
 class Step1 extends VerticalPageStep {
   const Step1()
       : super(
-          indicator: const Icon(Icons.access_alarm, size: 15),
+          indicator: const Icon(Icons.person, size: 15),
           title: const _Step1Title(),
           content: const _Step1Content(),
         );
@@ -18,7 +18,7 @@ class _Step1Title extends StatelessWidget {
   Widget build(BuildContext context) {
     return const StepTitleBar(
       title: Text(
-        'Step 1',
+        'Personal Info',
         style: TextStyle(color: Colors.white),
       ),
       color: Colors.blueAccent,
@@ -31,26 +31,31 @@ class _Step1Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 48),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Your Name and Surname',
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: 'Name',
+    return InkWell(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 48),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Your Name and Surname'),
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'Name',
+              ),
             ),
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: 'Surname',
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'Surname',
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
