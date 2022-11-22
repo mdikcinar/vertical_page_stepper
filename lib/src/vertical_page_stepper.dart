@@ -1,29 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:page_stepper/src/models/page_indicator_settings.dart';
 
-part 'models/page_step.dart';
+import 'package:vertical_page_stepper/vertical_page_stepper.dart';
 
-class PageStepper extends StatefulWidget {
-  const PageStepper({
+part 'models/vertical_page_step.dart';
+
+class VerticalPageStepper extends StatefulWidget {
+  const VerticalPageStepper({
     Key? key,
     required this.steps,
     this.pageController,
-    this.indicatorSettings = const PageIndicatorSettings(),
+    this.indicatorSettings = const StepperIndicatorSettings(),
     this.pageChangeDuration = const Duration(milliseconds: 500),
     this.pageChangeCurve = Curves.easeOut,
   }) : super(key: key);
 
-  final List<PageStep> steps;
+  final List<VerticalPageStep> steps;
   final PageController? pageController;
-  final PageIndicatorSettings indicatorSettings;
+  final StepperIndicatorSettings indicatorSettings;
   final Duration pageChangeDuration;
   final Curve pageChangeCurve;
 
   @override
-  State<PageStepper> createState() => _PageStepperState();
+  State<VerticalPageStepper> createState() => _VerticalPageStepperState();
 }
 
-class _PageStepperState extends State<PageStepper> {
+class _VerticalPageStepperState extends State<VerticalPageStepper> {
   late PageController pageController;
   final ValueNotifier<int> currentStepNotifier = ValueNotifier(0);
   final ValueNotifier<double> pageValueNotifier = ValueNotifier(0);

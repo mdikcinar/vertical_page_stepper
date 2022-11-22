@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 @immutable
-class PageIndicatorSettings {
-  const PageIndicatorSettings({
+class StepperIndicatorSettings {
+  const StepperIndicatorSettings({
     this.activeRadius = 12,
     this.radius = 8,
     this.leftPadding = 8,

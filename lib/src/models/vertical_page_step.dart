@@ -1,11 +1,11 @@
-part of '../page_stepper.dart';
+part of '../vertical_page_stepper.dart';
 
 @immutable
-class PageStep {
-  /// Creates a step for a [PageStepper].
+class VerticalPageStep {
+  /// Creates a step for a [VerticalPageStepper].
   ///
   /// The [title], [content] arguments must not be null.
-  const PageStep({
+  const VerticalPageStep({
     required this.title,
     required this.content,
     this.indicator,

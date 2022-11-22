@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:page_stepper/page_stepper.dart';
+import 'package:vertical_page_stepper/vertical_page_stepper.dart';
 
 class ExamplePage extends StatefulWidget {
   const ExamplePage({super.key});
@@ -46,14 +46,14 @@ class _ExamplePageState extends State<ExamplePage> {
           body: child,
         );
       },
-      child: PageStepper(
+      child: VerticalPageStepper(
         pageController: pageController,
-        indicatorSettings: PageIndicatorSettings(
+        indicatorSettings: StepperIndicatorSettings(
           backgroundColor: Colors.grey.shade300,
           opacity: 0.5,
         ),
         steps: [
-          PageStep(
+          VerticalPageStep(
             indicator: const Icon(Icons.access_alarm, size: 15),
             title: const StepTitleBar(
               title: Text(
@@ -72,7 +72,7 @@ class _ExamplePageState extends State<ExamplePage> {
               ),
             ),
           ),
-          const PageStep(
+          const VerticalPageStep(
             indicator: Icon(Icons.accessibility, size: 15),
             title: StepTitleBar(
               title: Text(
@@ -83,7 +83,7 @@ class _ExamplePageState extends State<ExamplePage> {
             ),
             content: Center(child: Text('content 2S')),
           ),
-          PageStep(
+          VerticalPageStep(
             indicator: Icon(Icons.error, size: 15),
             title: StepTitleBar(
               title: const Text(
@@ -102,7 +102,7 @@ class _ExamplePageState extends State<ExamplePage> {
               ),
             ),
           ),
-          PageStep(
+          VerticalPageStep(
             indicator: const Icon(Icons.pages, size: 15),
             title: const StepTitleBar(
               title: Text(
@@ -121,7 +121,7 @@ class _ExamplePageState extends State<ExamplePage> {
               ),
             ),
           ),
-          PageStep(
+          VerticalPageStep(
             indicator: const Icon(Icons.sell_rounded, size: 15),
             title: StepTitleBar(
               title: const Text(
