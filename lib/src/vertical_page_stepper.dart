@@ -84,14 +84,15 @@ class _VerticalPageStepperState extends State<VerticalPageStepper> {
               },
             ),
             Expanded(
-              child: PageView(
+              child: PageView.builder(
                 controller: pageController,
                 scrollBehavior: const MaterialScrollBehavior().copyWith(
                   overscroll: false,
                   physics: const ClampingScrollPhysics(),
                 ),
                 scrollDirection: Axis.vertical,
-                children: widget.steps.map((e) => e.content).toList(),
+                itemCount: widget.steps.length,
+                itemBuilder: (context, index) => widget.steps[index].content,
               ),
             ),
           ],
