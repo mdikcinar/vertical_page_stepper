@@ -34,7 +34,7 @@ class _ExamplePageState extends State<ExamplePage> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
+    return ValueListenableBuilder<bool>(
       valueListenable: hasAppBarElevationNotifier,
       builder: (context, hasAppBarElevation, child) {
         return Scaffold(

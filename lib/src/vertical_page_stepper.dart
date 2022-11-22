@@ -152,7 +152,7 @@ class _VerticalPageStepperState extends State<VerticalPageStepper> {
       return;
     }
     var newPosition = indicatorInitialPositions[indicatorIndex];
-    if (pageValue > indicatorIndex && pageValue < indicatorIndex + 1) {
+    if (pageValue > indicatorIndex.toDouble() && pageValue < indicatorIndex + 1) {
       newPosition += (newPosition - indicatorPaddingWithTitle - (stepTitleBarHeight * indicatorIndex)) *
           (indicatorIndex - pageValue);
     }
