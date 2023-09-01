@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:vertical_page_stepper/vertical_page_stepper.dart';
 
 part 'models/vertical_page_step.dart';
@@ -14,6 +13,10 @@ class VerticalPageStepper extends StatefulWidget {
     this.indicatorSettings = const StepperIndicatorSettings(),
     this.pageChangeDuration = const Duration(milliseconds: 500),
     this.pageChangeCurve = Curves.easeOut,
+    this.physics,
+    this.onPageChanged,
+    this.scrollBehavior,
+    this.boxShadow
   }) : super(key: key);
 
   final List<VerticalPageStep> steps;
@@ -21,7 +24,10 @@ class VerticalPageStepper extends StatefulWidget {
   final StepperIndicatorSettings indicatorSettings;
   final Duration pageChangeDuration;
   final Curve pageChangeCurve;
-
+  final ScrollPhysics? physics;
+  final void Function(int)? onPageChanged;
+  final ScrollBehavior? scrollBehavior;
+  final List<BoxShadow>? boxShadow;
   @override
   State<VerticalPageStepper> createState() => _VerticalPageStepperState();
 }
@@ -66,35 +72,47 @@ class _VerticalPageStepperState extends State<VerticalPageStepper> {
       children: [
         Column(
           children: [
-            ValueListenableBuilder<int>(
-              valueListenable: currentStepNotifier,
-              builder: (context, currentStep, child) {
-                return Column(
-                  children: [
-                    for (var index = 0; index < currentStep; index++)
-                      GestureDetector(
-                        onTap: () => animateToPage(index),
-                        child: widget.steps[index].title,
-                      ),
-                    const _TitleShadow()
-                  ],
-                );
-              },
-            ),
             Expanded(
               child: PageView.builder(
+                onPageChanged: widget.onPageChanged,
+                physics: widget.physics,
                 controller: pageController,
-                scrollBehavior: const MaterialScrollBehavior().copyWith(
+                scrollBehavior: widget.scrollBehavior ?? const MaterialScrollBehavior().copyWith(
                   overscroll: false,
                   physics: const ClampingScrollPhysics(),
                 ),
                 scrollDirection: Axis.vertical,
                 itemCount: widget.steps.length,
-                itemBuilder: (context, index) => widget.steps[index].content,
+                itemBuilder: (context, index) => Padding(
+                  padding: EdgeInsets.only(top: index * 40),
+                  child: widget.steps[index].content,
+                ),
               ),
             ),
           ],
         ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: SizedBox(
+              child: ValueListenableBuilder<int>(
+                valueListenable: currentStepNotifier,
+                builder: (context, currentStep, child) {
+                  return Column(
+                    children: [
+                      for (var index = 0; index < currentStep; index++)
+                        GestureDetector(
+                          onTap: () => animateToPage(index),
+                          child: widget.steps[index].title,
+                        ),
+                      _TitleShadow(
+                        boxShadow: widget.boxShadow,
+                      )
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
         for (var indicatorIndex = 0; indicatorIndex < widget.steps.length; indicatorIndex++)
           ValueListenableBuilder<double>(
             valueListenable: pageValueNotifier,

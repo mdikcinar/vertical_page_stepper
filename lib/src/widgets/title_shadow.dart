@@ -1,17 +1,18 @@
 part of '../vertical_page_stepper.dart';
 
 class _TitleShadow extends StatelessWidget {
-  const _TitleShadow({Key? key}) : super(key: key);
+  final List<BoxShadow>? boxShadow;
+  const _TitleShadow({Key? key,this.boxShadow}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        boxShadow: [
+        boxShadow: boxShadow ?? [
           BoxShadow(
             color: Colors.grey.shade400,
-            blurRadius: 0.2,
-            spreadRadius: 0.2,
+            blurRadius: 0.5,
+            spreadRadius: 0.5,
           ),
         ],
       ),
