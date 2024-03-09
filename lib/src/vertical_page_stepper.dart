@@ -38,14 +38,17 @@ class _VerticalPageStepperState extends State<VerticalPageStepper> {
     super.initState();
     pageController = widget.pageController ?? PageController();
     pageController.addListener(pageValueListener);
-    indicatorInitialPositions = List.generate(widget.steps.length, (index) => 0);
+    indicatorInitialPositions =
+        List.generate(widget.steps.length, (index) => 0);
     indicatorPositions = List.generate(widget.steps.length, (index) => null);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    for (var indicatorIndex = 0; indicatorIndex < widget.steps.length; indicatorIndex++) {
+    for (var indicatorIndex = 0;
+        indicatorIndex < widget.steps.length;
+        indicatorIndex++) {
       calculateIndicatorsStartPositions(indicatorIndex, 0);
     }
   }
@@ -95,12 +98,15 @@ class _VerticalPageStepperState extends State<VerticalPageStepper> {
             ),
           ],
         ),
-        for (var indicatorIndex = 0; indicatorIndex < widget.steps.length; indicatorIndex++)
+        for (var indicatorIndex = 0;
+            indicatorIndex < widget.steps.length;
+            indicatorIndex++)
           ValueListenableBuilder<double>(
             valueListenable: pageValueNotifier,
             builder: (context, pageValue, child) {
               calculateIndicatorPositions(indicatorIndex, pageValue);
-              final indicatorPosition = indicatorPositions[indicatorIndex] ?? indicatorInitialPositions[indicatorIndex];
+              final indicatorPosition = indicatorPositions[indicatorIndex] ??
+                  indicatorInitialPositions[indicatorIndex];
               return _Indicator(
                 indicatorSettings: widget.indicatorSettings,
                 indicatorIndex: indicatorIndex,
@@ -133,27 +139,34 @@ class _VerticalPageStepperState extends State<VerticalPageStepper> {
   }
 
   Color? getIndicatorBackgroundColor(int indicatorIndex) =>
-      widget.steps[indicatorIndex].indicatorBackgroundColor ?? widget.indicatorSettings.backgroundColor;
+      widget.steps[indicatorIndex].indicatorBackgroundColor ??
+      widget.indicatorSettings.backgroundColor;
 
   void calculateIndicatorPositions(int indicatorIndex, double pageValue) {
     //This if is needed because sometimes page controller listener is not triggering on last pixels
     //If this happens reCorrect that value and return for initial position.
     if (pageValue <= indicatorIndex) {
-      indicatorPositions[indicatorIndex] = indicatorInitialPositions[indicatorIndex];
+      indicatorPositions[indicatorIndex] =
+          indicatorInitialPositions[indicatorIndex];
       return;
     }
     const stepTitleBarHeight = 40;
     final indicatorHeight = widget.indicatorSettings.activeRadius * 2;
-    final indicatorPaddingWithTitle = (stepTitleBarHeight - indicatorHeight) / 2;
+    final indicatorPaddingWithTitle =
+        (stepTitleBarHeight - indicatorHeight) / 2;
     //This if is needed because sometimes page controller listener is not triggering on last pixels
     //If this happens reCorrect that value and return for title position.
     if (pageValue <= indicatorIndex || pageValue >= indicatorIndex + 1) {
-      indicatorPositions[indicatorIndex] = indicatorPaddingWithTitle + (stepTitleBarHeight * indicatorIndex);
+      indicatorPositions[indicatorIndex] =
+          indicatorPaddingWithTitle + (stepTitleBarHeight * indicatorIndex);
       return;
     }
     var newPosition = indicatorInitialPositions[indicatorIndex];
-    if (pageValue > indicatorIndex.toDouble() && pageValue < indicatorIndex + 1) {
-      newPosition += (newPosition - indicatorPaddingWithTitle - (stepTitleBarHeight * indicatorIndex)) *
+    if (pageValue > indicatorIndex.toDouble() &&
+        pageValue < indicatorIndex + 1) {
+      newPosition += (newPosition -
+              indicatorPaddingWithTitle -
+              (stepTitleBarHeight * indicatorIndex)) *
           (indicatorIndex - pageValue);
     }
     indicatorPositions[indicatorIndex] = newPosition;
@@ -163,14 +176,19 @@ class _VerticalPageStepperState extends State<VerticalPageStepper> {
     final deviceHeight = MediaQuery.of(context).size.height;
     final safeAreaPaddings = MediaQuery.of(context).padding;
     final appBarHeight = AppBar().preferredSize.height;
-    final availableHeight = deviceHeight - appBarHeight - safeAreaPaddings.top - safeAreaPaddings.bottom;
+    final availableHeight = deviceHeight -
+        appBarHeight -
+        safeAreaPaddings.top -
+        safeAreaPaddings.bottom;
     final centerPosition = availableHeight / 2;
     final indicatorHeight = widget.indicatorSettings.activeRadius * 2;
     var indicatorInitialPosition = centerPosition;
     if (isIndicatorAboveCenter(indicatorIndex)) {
-      indicatorInitialPosition -= indicatorHeight * ((widget.steps.length / 2 - 0.5) - indicatorIndex);
+      indicatorInitialPosition -=
+          indicatorHeight * ((widget.steps.length / 2 - 0.5) - indicatorIndex);
     } else if (isIndicatorBelowCenter(indicatorIndex)) {
-      indicatorInitialPosition += indicatorHeight * (indicatorIndex - (widget.steps.length / 2 - 0.5));
+      indicatorInitialPosition +=
+          indicatorHeight * (indicatorIndex - (widget.steps.length / 2 - 0.5));
     }
     indicatorInitialPositions[indicatorIndex] = indicatorInitialPosition;
   }

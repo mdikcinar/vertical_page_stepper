@@ -32,7 +32,8 @@ class _Indicator extends StatelessWidget {
         child: Transform.scale(
           scale: getIndicatorScale(),
           child: CircleAvatar(
-            backgroundColor: backgroundColor?.withOpacity(getIndicatorColorOpacity()),
+            backgroundColor:
+                backgroundColor?.withOpacity(getIndicatorColorOpacity()),
             radius: indicatorSettings.activeRadius,
             child: Opacity(
               opacity: getIndicatorOpacity(),
@@ -64,7 +65,8 @@ class _Indicator extends StatelessWidget {
   }
 
   double getIndicatorColorOpacity() {
-    var colorOpacity = indicatorSettings.opacity + ((1 - indicatorSettings.opacity) * (pageValue - indicatorIndex + 1));
+    var colorOpacity = indicatorSettings.opacity +
+        ((1 - indicatorSettings.opacity) * (pageValue - indicatorIndex + 1));
     if (pageValue - indicatorIndex + 1 < 0) {
       colorOpacity = indicatorSettings.opacity;
     } else if (pageValue - indicatorIndex + 1 > 1) {

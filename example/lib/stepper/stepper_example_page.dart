@@ -45,7 +45,8 @@ class _ExamplePageState extends State<ExamplePage> {
           ),
           floatingActionButton: FloatingActionButton.extended(
             label: const Text('Next'),
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8))),
             onPressed: () {
               pageController.nextPage(
                 duration: const Duration(milliseconds: 500),
